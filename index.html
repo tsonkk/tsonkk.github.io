@@ -5,7 +5,7 @@
   <script type='module'>
     // init firebase
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getDatabase, ref, child, onValue } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+    import { getDatabase, ref, child, onValue, set } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
     const config = { databaseURL: 'https://nodemcu-6c5d0-default-rtdb.asia-southeast1.firebasedatabase.app/' };
     initializeApp(config);
     const dbRef = ref(getDatabase());
@@ -20,8 +20,15 @@
             const epochTime = child.val() * 1000; // milliseconds
             document.getElementById('lblUpdated').innerText = new Date(epochTime).toLocaleString();
           }
+          if (child.key === 'stream') {
+            document.getElementById('lblStream').innerText = child.val();
+          }
         });
       });
+    }
+    window.btnStream_Click = function btnStream_Click() {
+      const s = 1 - parseInt(document.getElementById('lblStream').innerText);
+      set(child(dbRef, 'ESP32-CAM/stream'), s);
     }
   </script>
 </head>
@@ -34,6 +41,12 @@
     </tr>
     <tr>
       <td colspan='2'><img id='imgPhoto' style='width:90vw' /></td>
+    </tr>
+    <tr>
+      <td colspan='2' align='center'>
+        <button onclick='btnStream_Click()'>START / STOP stream</button>
+        (stream = <span id='lblStream'></span>)
+      </td>
     </tr>
   </table>
 </body>
