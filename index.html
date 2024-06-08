@@ -20,7 +20,11 @@
             const epochTime = child.val() * 1000; // milliseconds
             document.getElementById('lblUpdated').innerText = new Date(epochTime).toLocaleString();
           }
-          if (child.key === 'stream') {
+        });
+      });
+      onValue(child(dbRef, 'ESP32-CAM-STREAM'), (snapshot) => {
+        snapshot.forEach((child) => {
+          if (child.key === 'value') {
             document.getElementById('lblStream').innerText = child.val();
           }
         });
@@ -28,7 +32,7 @@
     }
     window.btnStream_Click = function btnStream_Click() {
       const s = 1 - parseInt(document.getElementById('lblStream').innerText);
-      set(child(dbRef, 'ESP32-CAM/stream'), s);
+      set(child(dbRef, 'ESP32-CAM-STREAM/value'), s);
     }
   </script>
 </head>
@@ -44,7 +48,7 @@
     </tr>
     <tr>
       <td colspan='2' align='center'>
-        <button onclick='btnStream_Click()'>START / STOP stream</button><br />
+        <button onclick='btnStream_Click()'>START / STOP</button><br />
         (stream = <span id='lblStream'></span>)
       </td>
     </tr>
