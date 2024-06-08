@@ -20,11 +20,7 @@
             const epochTime = child.val() * 1000; // milliseconds
             document.getElementById('lblUpdated').innerText = new Date(epochTime).toLocaleString();
           }
-        });
-      });
-      onValue(child(dbRef, 'ESP32-CAM-STREAM'), (snapshot) => {
-        snapshot.forEach((child) => {
-          if (child.key === 'value') {
+          if (child.key === 'stream') {
             document.getElementById('lblStream').innerText = child.val();
           }
         });
@@ -32,7 +28,7 @@
     }
     window.btnStream_Click = function btnStream_Click() {
       const s = 1 - parseInt(document.getElementById('lblStream').innerText);
-      set(child(dbRef, 'ESP32-CAM-STREAM/value'), s);
+      set(child(dbRef, 'ESP32-CAM/stream'), s);
     }
   </script>
 </head>
