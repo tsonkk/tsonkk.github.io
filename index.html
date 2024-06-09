@@ -13,15 +13,15 @@
     window.page_Load = function page_Load() {
       onValue(child(dbRef, 'ESP32-CAM'), (snapshot) => {
         snapshot.forEach((child) => {
-          if (child.key === 'stream') {
-            document.getElementById('lblStream').innerText = child.val();
-          }
           if (child.key === 'photo') {
             document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + child.val();
           }
           if (child.key === 'updated') {
-            const epochTime = child.val() * 1000; // milliseconds
+            const epochTime = child.val();
             document.getElementById('lblUpdated').innerText = new Date(epochTime).toLocaleString();
+          }
+          if (child.key === 'stream') {
+            document.getElementById('lblStream').innerText = child.val();
           }
         });
       });
