@@ -11,19 +11,14 @@
     const dbRef = ref(getDatabase());
     // event-handler methods
     window.page_Load = function page_Load() {
-      onValue(child(dbRef, 'ESP32-CAM'), (snapshot) => {
-        snapshot.forEach((child) => {
-          if (child.key === 'photo') {
-            document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + child.val();
-          }
-          if (child.key === 'updated') {
-            const epochTime = child.val();
-            document.getElementById('lblUpdated').innerText = new Date(epochTime).toLocaleString();
-          }
-          if (child.key === 'stream') {
-            document.getElementById('lblStream').innerText = child.val();
-          }
-        });
+      onValue(child(dbRef, 'ESP32-CAM/photo'), (snapshot) => {
+        document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + snapshot.val();
+      });
+      onValue(child(dbRef, 'ESP32-CAM/updated'), (snapshot) => {
+        document.getElementById('lblUpdated').innerText = new Date(snapshot.val()).toLocaleString();
+      });
+      onValue(child(dbRef, 'ESP32-CAM/stream'), (snapshot) => {
+        document.getElementById('lblStream').innerText = snapshot.val();
       });
     }
     window.btnStream_Click = function btnStream_Click() {
