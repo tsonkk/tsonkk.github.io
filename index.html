@@ -24,6 +24,7 @@
     window.btnStream_Click = function btnStream_Click() {
       const s = 1 - parseInt(document.getElementById('lblStream').innerText);
       set(child(dbRef, 'ESP32-CAM/stream'), s);
+      if (s === 0) set(child(dbRef, 'ESP32-CAM/photo'), '');
     }
   </script>
 </head>
