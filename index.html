@@ -12,19 +12,28 @@
     // event-handler methods
     window.page_Load = function page_Load() {
       onValue(child(dbRef, 'ESP32-CAM/photo'), (snapshot) => {
-        document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + snapshot.val();
+        const photo = snapshot.val();
+        document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + photo;
       });
       onValue(child(dbRef, 'ESP32-CAM/updated'), (snapshot) => {
-        document.getElementById('lblUpdated').innerText = new Date(snapshot.val()).toLocaleString();
+        const updated = snapshot.val();
+        document.getElementById('lblUpdated').innerText = new Date(updated).toLocaleString();
       });
       onValue(child(dbRef, 'ESP32-CAM/stream'), (snapshot) => {
-        document.getElementById('lblStream').innerText = snapshot.val();
+        const s = snapshot.val();
+        document.getElementById('lblStream').innerText = s;
+        if (s === 0) {
+          document.getElementById('lblInfo').innerText = '';
+          document.getElementById('btnStream').innerText = 'START stream';
+        } else if (s === 1) {
+          document.getElementById('lblInfo').innerHTML = 'the streaming for <b>1</b> minute<br/>please wait about <b>30</b> seconds if the internet is unstable';
+          document.getElementById('btnStream').innerText = 'STOP stream';
+        }
       });
     }
     window.btnStream_Click = function btnStream_Click() {
-      const s = 1 - parseInt(document.getElementById('lblStream').innerText);
+      const s = 1 - parseInt(document.getElementById('lblStream').textContent);
       set(child(dbRef, 'ESP32-CAM/stream'), s);
-      if (s === 0) set(child(dbRef, 'ESP32-CAM/photo'), '');
     }
   </script>
 </head>
@@ -33,16 +42,19 @@
   <table cellspacing='10'>
     <tr>
       <td align='left'>ESP32-CAM</td>
-      <td align='right'><span id='lblUpdated'></span></td>
+      <td align='right'><b><span id='lblUpdated'></span></b></td>
     </tr>
     <tr>
       <td colspan='2'><img id='imgPhoto' style='width:90vw' /></td>
     </tr>
     <tr>
       <td colspan='2' align='center'>
-        <button onclick='btnStream_Click()'>START / STOP</button> stream = <span id='lblStream'></span><br />
-        please wait about 30 seconds if the internet is unstable
+        <button id='btnStream' onclick='btnStream_Click()'></button>
+        <span id='lblStream' style='visibility: hidden'></span>
       </td>
+    </tr>
+    <tr>
+      <td colspan='2' align='center'><span id='lblInfo'></span></td>
     </tr>
   </table>
 </body>
