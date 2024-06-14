@@ -26,7 +26,7 @@
           document.getElementById('lblInfo').innerText = '';
           document.getElementById('btnStream').innerText = 'START stream';
         } else if (s === 1) {
-          document.getElementById('lblInfo').innerHTML = 'the streaming for <b>1</b> minute<br/>please wait about <b>30</b> seconds if the internet is unstable';
+          document.getElementById('lblInfo').innerHTML = 'the streaming for <b>1</b> minute';
           document.getElementById('btnStream').innerText = 'STOP stream';
         }
       });
@@ -41,20 +41,23 @@
 <body onload='page_Load()'>
   <table cellspacing='10'>
     <tr>
-      <td align='left'>ESP32-CAM</td>
-      <td align='right'><b><span id='lblUpdated'></span></b></td>
-    </tr>
-    <tr>
-      <td colspan='2'><img id='imgPhoto' style='width:90vw' /></td>
-    </tr>
-    <tr>
-      <td colspan='2' align='center'>
-        <button id='btnStream' onclick='btnStream_Click()'></button>
-        <span id='lblStream' style='visibility: hidden'></span>
+      <td align='center'>
+        <span style='float:left'>ESP32-CAM</span>
+        <b><span id='lblUpdated' style='float:right'></span></b>
       </td>
     </tr>
     <tr>
-      <td colspan='2' align='center'><span id='lblInfo'></span></td>
+      <td align='center'>
+        <div>please wait about <b>30</b> seconds if the internet is unstable</div>
+        <img id='imgPhoto' style='width:90vw' />
+      </td>
+    </tr>
+    <tr>
+      <td align='center'>
+        <button id='btnStream' onclick='btnStream_Click()'></button>
+        <span id='lblStream' style='visibility:hidden'></span>
+        <div id='lblInfo'></div>
+      </td>
     </tr>
   </table>
 </body>
