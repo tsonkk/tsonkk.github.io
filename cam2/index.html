@@ -11,15 +11,15 @@
     const dbRef = ref(getDatabase());
     // event-handler methods
     window.page_Load = function page_Load() {
-      onValue(child(dbRef, 'ESP32-CAM/photo'), (snapshot) => {
+      onValue(child(dbRef, 'ESP32-CAM2/photo'), (snapshot) => {
         const photo = snapshot.val();
         document.getElementById('imgPhoto').src = 'data:image/jpg;base64,' + photo;
       });
-      onValue(child(dbRef, 'ESP32-CAM/updated'), (snapshot) => {
+      onValue(child(dbRef, 'ESP32-CAM2/updated'), (snapshot) => {
         const updated = snapshot.val();
         document.getElementById('lblUpdated').innerText = new Date(updated).toLocaleString();
       });
-      onValue(child(dbRef, 'ESP32-CAM/stream'), (snapshot) => {
+      onValue(child(dbRef, 'ESP32-CAM2/stream'), (snapshot) => {
         const s = snapshot.val();
         document.getElementById('lblStream').innerText = s;
         if (s === 0) {
@@ -33,7 +33,7 @@
     }
     window.btnStream_Click = function btnStream_Click() {
       const s = 1 - parseInt(document.getElementById('lblStream').textContent);
-      set(child(dbRef, 'ESP32-CAM/stream'), s);
+      set(child(dbRef, 'ESP32-CAM2/stream'), s);
     }
   </script>
 </head>
@@ -42,7 +42,7 @@
   <table cellspacing='10'>
     <tr>
       <td align='center'>
-        <span style='float:left'>ESP32-CAM1</span>
+        <span style='float:left'>ESP32-CAM2</span>
         <b><span id='lblUpdated' style='float:right'></span></b>
       </td>
     </tr>
